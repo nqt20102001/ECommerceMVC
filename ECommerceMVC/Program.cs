@@ -1,4 +1,6 @@
-using ECommerceMVC.Data;
+﻿using ECommerceMVC.Data;
+using ECommerceMVC.Helpers;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +14,16 @@ builder.Services.AddDbContext<Hshop2023Context>(options =>
 });
 
 builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+{
+    options.LoginPath = "/KhachHang/DangNhap";
+    options.AccessDeniedPath = "/AccessDenied"; // Đăng nhập rồi nhưng chưa có quyền sẽ chuyển tới địa chỉ này
+
+
+});
 
 builder.Services.AddSession(options =>
 {
@@ -38,7 +50,11 @@ app.UseRouting();
 
 app.UseSession();
 
+app.UseAuthentication();
+
 app.UseAuthorization();
+
+
 
 app.MapControllerRoute(
     name: "default",

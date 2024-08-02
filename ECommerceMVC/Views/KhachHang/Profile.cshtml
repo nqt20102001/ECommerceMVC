@@ -1,0 +1,13 @@
+﻿@model ECommerceMVC.ViewModels.LoginVM
+
+@{
+
+    ViewData["Title"] = "Profile";
+}
+
+
+<h1>Profile</h1>
+<div class="container">
+    <h2>Wellcome @Context.User.Identity.Name</h2>
+    <a asp-action="DangXuat">Đăng xuất</a>
+</div>
